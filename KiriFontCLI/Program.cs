@@ -6,7 +6,7 @@ internal class Program
     private static void Main(string[] args)
     {
         Console.Title = "KiriFontCLI - Spike Chunsoft Font Utility";
-        Console.WriteLine("=== KiriFontCLI Utility ===");
+        Console.WriteLine("=== KiriFont CLI Utility ===");
 
         if (args.Length < 3)
         {
