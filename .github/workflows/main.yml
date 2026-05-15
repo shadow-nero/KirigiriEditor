@@ -1,0 +1,50 @@
+name: Build Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '10.0.x'
+        include-prerelease: true
+
+    - name: Restore
+      run: dotnet restore KiriFont.sln
+
+    - name: Run Tests
+      run: dotnet test KiriAppTest/KiriAppTest.csproj --configuration Release
+
+    - name: Publish GUI x64
+      run: dotnet publish KiriFontGUI/KiriFontGUI.csproj -c Release -r win-x64 --self-contained true -o publish/gui-x64
+
+    - name: Publish GUI x86
+      run: dotnet publish KiriFontGUI/KiriFontGUI.csproj -c Release -r win-x86 --self-contained true -o publish/gui-x86
+
+    - name: Publish CLI x64
+      run: dotnet publish KiriFontCLI/KiriFontCLI.csproj -c Release -r win-x64 --self-contained true -o publish/cli-x64
+
+    - name: Publish CLI x86
+      run: dotnet publish KiriFontCLI/KiriFontCLI.csproj -c Release -r win-x86 --self-contained true -o publish/cli-x86
+
+    - name: Build Library
+      run: dotnet build KirigiriLib/KirigiriLib.csproj -c Release
+
+    - name: Create Release
+      uses: softprops/action-gh-release@v2
+      with:
+        files: |
+          publish/gui-x64/*
+          publish/gui-x86/*
+          publish/cli-x64/*
+          publish/cli-x86/*
