@@ -1,0 +1,72 @@
+name: Build Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '10.0.x'
+
+    - name: Restore
+      run: dotnet restore KiriFont.sln
+
+    # TESTES
+    - name: Run Tests
+      run: dotnet test KiriAppTest/KiriAppTest.csproj --configuration Release
+
+    # BUILD GUI x64
+    - name: Publish GUI x64
+      run: dotnet publish KiriFontGUI/KiriFontGUI.csproj -c Release -r win-x64 --self-contained true -o publish/gui-x64
+
+    # BUILD GUI x86
+    - name: Publish GUI x86
+      run: dotnet publish KiriFontGUI/KiriFontGUI.csproj -c Release -r win-x86 --self-contained true -o publish/gui-x86
+
+    # BUILD CLI x64
+    - name: Publish CLI x64
+      run: dotnet publish KiriFontCLI/KiriFontCLI.csproj -c Release -r win-x64 --self-contained true -o publish/cli-x64
+
+    # BUILD CLI x86
+    - name: Publish CLI x86
+      run: dotnet publish KiriFontCLI/KiriFontCLI.csproj -c Release -r win-x86 --self-contained true -o publish/cli-x86
+
+    # BUILD DLL
+    - name: Build Library
+      run: dotnet build KirigiriLib/KirigiriLib.csproj -c Release
+
+    # COPY DLL
+    - name: Copy DLL
+      run: |
+        mkdir publish/lib
+        copy KirigiriLib/bin/Release/net10.0/KirigiriLib.dll publish/lib/
+
+    # ZIP
+    - name: Create ZIPs
+      run: |
+        Compress-Archive -Path publish/gui-x64/* -DestinationPath KiriFontGUI-x64.zip
+        Compress-Archive -Path publish/gui-x86/* -DestinationPath KiriFontGUI-x86.zip
+        Compress-Archive -Path publish/cli-x64/* -DestinationPath KiriFontCLI-x64.zip
+        Compress-Archive -Path publish/cli-x86/* -DestinationPath KiriFontCLI-x86.zip
+        Compress-Archive -Path publish/lib/* -DestinationPath KirigiriLib.zip
+
+    # RELEASE
+    - name: Create Release
+      uses: softprops/action-gh-release@v2
+      with:
+        files: |
+          KiriFontGUI-x64.zip
+          KiriFontGUI-x86.zip
+          KiriFontCLI-x64.zip
+          KiriFontCLI-x86.zip
+          KirigiriLib.zip
