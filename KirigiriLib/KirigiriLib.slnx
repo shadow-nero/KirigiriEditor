@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="../KiriAppTest/KiriAppTest.csproj" />
+  <Project Path="../KiriFontCLI/KiriFontCLI.csproj" Id="7319317a-3b5e-425a-ae15-e256f59133b9" />
+  <Project Path="../KiriFontGUI/KiriFontGUI.csproj" Id="857ee3b3-ca76-47bc-9c17-4e2bbb15937d" />
+  <Project Path="../KirigiriTest/KiriUnitTest.csproj" Id="07d52d12-7ac6-4f8f-a0ba-483f297d3886" />
+  <Project Path="KirigiriLib.csproj" />
+</Solution>
