@@ -35,7 +35,7 @@ internal class Program
                     break;
 
                 default:
-                    Console.WriteLine($"[-] Unknown mode: {mode}");
+                    Console.WriteLine($"[-] Unknown Mode: {mode}");
                     ShowUsage();
                     break;
             }
