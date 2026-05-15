@@ -35,13 +35,13 @@ internal class Program
                     break;
 
                 default:
-                    Console.WriteLine($"[-] Unknown mode: {mode}");
+                    Console.WriteLine($"[-] Unknown Mode: {mode}");
                     ShowUsage();
                     break;
             }
 
             sw.Stop();
-            Console.WriteLine($"\n[+] Operation completed in {sw.ElapsedMilliseconds}ms.");
+            Console.WriteLine($"\n[+] Operation Completed in {sw.ElapsedMilliseconds}ms.");
         }
         catch (Exception ex)
         {
