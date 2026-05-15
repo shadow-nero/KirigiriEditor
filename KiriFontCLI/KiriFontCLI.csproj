@@ -8,9 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\KiriAppTest\KiriAppTest.csproj" />
     <ProjectReference Include="..\KirigiriLib\KirigiriLib.csproj" />
-    <ProjectReference Include="..\KirigiriTest\KiriUnitTest.csproj" />
   </ItemGroup>
 
 </Project>
