@@ -41,7 +41,7 @@ internal class Program
             }
 
             sw.Stop();
-            Console.WriteLine($"\n[+] Operation completed in {sw.ElapsedMilliseconds}ms.");
+            Console.WriteLine($"\n[+] Operation Completed in {sw.ElapsedMilliseconds}ms.");
         }
         catch (Exception ex)
         {
